@@ -3,11 +3,11 @@ one = new OmegaNum(1)
 two = new OmegaNum(2)
 three = new OmegaNum(3)
 four = new OmegaNum(4)
-five = new OmegaNum(0)
-six = new OmegaNum(1)
-sewen = new OmegaNum(2)
-eight = new OmegaNum(3)
-nine = new OmegaNum(4)
+five = new OmegaNum(5)
+six = new OmegaNum(6)
+sewen = new OmegaNum(7)
+eight = new OmegaNum(8)
+nine = new OmegaNum(9)
 function subToAdd(num) {
     if (num.lte(0)) {
         num = zero.sub(num);
@@ -340,10 +340,10 @@ addLayer("d", {
         //生产物质/时间碎片
         if (hasUpgrade("r21",13) && !hasUpgrade("r21",21)) {
             if (player.d.points.gt(new OmegaNum("3.24e616"))) { player.d.points = new OmegaNum("3.241e616")} else {player.d.points = player.d.points.add(player.d.massMultResult.mul(diff)) }
-        } else if (!hasUpgrade("r21",13)) {
-            if (player.d.points.gt(new OmegaNum("1.8e308"))) { player.d.points = new OmegaNum("1.81e308")} else {player.d.points = player.d.points.add(player.d.massMultResult.mul(diff)) }
-        } else {
-            player.d.points = player.d.points.add(player.d.massMultResult.mul(diff)) 
+        } else if (hasUpgrade("r21",21)) {
+            player.d.points = player.d.points.add(player.d.massMultResult.mul(diff))
+        } else if (!hasUpgrade("r21",13) && !hasUpgrade("r21",21)) {
+            if (player.d.points.gt(new OmegaNum("1.78e308"))) { player.d.points = new OmegaNum("1.802e308")} else {player.d.points = player.d.points.add(player.d.massMultResult.mul(diff)) }
         }
         player.d.timeShards = player.d.timeShards.add(player.d.timeMultResult.mul(diff))
         //生产 生产倍率
@@ -582,7 +582,7 @@ addLayer('r21', {
             display() {return "重置所有购买过的升级，不会返还花费的CP"},
             onClick(){
                 player.r21.upgrades = []
-                r = r.add(1)
+                player.r21.r = player.r21.r.add(1)
             },
         },
     },
@@ -634,7 +634,7 @@ addLayer('r21', {
         },
         25: {
             title: "盲盒",
-            cost() { return new OmegaNum(5).mul(three.pow(rowUps(2)))},
+            cost() { return new OmegaNum(5).mul(five.pow(rowUps(2)))},
             description: "不告诉你具体的buff，反正买了之后会变快"
         },
     }
@@ -690,7 +690,7 @@ addLayer ("a",{
         21:{
             name:"var bigCrunsh = newStart()",
             tooltip:"r21一次，类……大坍缩一次，奖励：重置会让物质变成10而不是0",
-            done(){ return player.r21.points.gte(1) },
+            done(){ return player.r21.points.gt(0) },
         },
         22:{
             name:"概不退货",
